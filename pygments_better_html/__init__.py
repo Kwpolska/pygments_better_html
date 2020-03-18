@@ -10,7 +10,6 @@ __all__ = ["BetterHtmlFormatter"]
 __version__ = "0.1.1"
 
 import enum
-import textwrap
 import warnings
 
 from pygments.formatters.html import HtmlFormatter
