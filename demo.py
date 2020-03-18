@@ -39,6 +39,7 @@ with open("demo-output.html", "w") as fh:
                 linenostep=2,
                 lineanchors="x",
                 linenospecial=3,  # no CSS for this by default
+                anchorlinenos=True,  # table only
             ),
         )
     )

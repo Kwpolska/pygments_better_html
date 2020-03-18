@@ -28,15 +28,21 @@ Required CSS
 To make this work, you will need to add the following CSS:
 
 ```css
-.highlight { white-space: pre-wrap; }
-.highlight table, .highlight tr, .highlight td { border-spacing: 0; border-collapse: collapse; }
-.highlight pre { white-space: pre-wrap; line-height: normal; }
-.highlighttable td.linenos { vertical-align: top; padding-left: 10px; user-select: none; }
-.highlighttable td.code { overflow-wrap: normal; border-collapse: collapse; }
-.highlight .lineno.nonumber { list-style: none; }
+.highlight table, .highlight tr, .highlight td { border-spacing: 0; border-collapse: collapse }
+.highlight pre { white-space: pre-wrap; line-height: normal }
+.highlighttable td.linenos { vertical-align: top; padding-left: 10px; user-select: none; -webkit-user-select: none }
+.highlighttable td.linenos code:before { content: attr(data-line-number) }
+.highlighttable td.code { overflow-wrap: normal; border-collapse: collapse }
+.highlighttable td.code code { white-space: pre-wrap }
+.highlight .lineno.nonumber { list-style: none }
 ```
 
 If you’re using ``get_style_defs``, those will be included for you.
+
+Browser support
+===============
+
+All reasonably modern versions of reasonable browsers are supported. Internet Explorer is neither, so it isn’t supported. Firefox, Chrome and Safari are supported. Either mode works with these browsers, although I’ve seen Firefox add extra spaces to the front of lines randomly, and Safari requires an ugly hack for the table mode.
 
 Known limitations
 =================

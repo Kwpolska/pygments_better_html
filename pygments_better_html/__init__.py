@@ -7,7 +7,7 @@ Portions copyright © 2006-2019, the Pygments authors. (2-clause BSD).
 """
 
 __all__ = ["BetterHtmlFormatter"]
-__version__ = '0.1.0'
+__version__ = "0.1.1"
 
 import enum
 import textwrap
@@ -38,29 +38,44 @@ class BetterHtmlFormatter(HtmlFormatter):
     def __init__(self, **options):
         """Initialize the formatter."""
         super().__init__(**options)
-        self.linenos_name = self.options.get("linenos", "ol")
-        self.linenos_val = BetterLinenos(self.linenos_name)
-        self.linenos = 2 if self.linenos_val == BetterLinenos.OL else 1
+        self.linenos_name = self.options.get("linenos", "table")
+        if self.linenos_name is False:
+            self.linenos_val = False
+            self.linenos = 0
+        elif self.linenos_name is True:
+            self.linenos_name = "table"
+        if self.linenos_name is not False:
+            self.linenos_val = BetterLinenos(self.linenos_name)
+            self.linenos = 2 if self.linenos_val == BetterLinenos.OL else 1
 
-    def get_style_defs(self, arg=None):
+    def get_style_defs(self, arg=None, wrapper_classes=None):
         """Generate CSS style definitions.
 
         Return CSS style definitions for the classes produced by the current
         highlighting style. ``arg`` can be a string or list of selectors to
-        insert before the token type classes.
+        insert before the token type classes. ``wrapper_classes`` are a list of
+        classes for the wrappers, defaults to the ``cssclass`` option.
         """
         base = super().get_style_defs(arg)
-        new_styles = textwrap.dedent(
-            """\
-            .%(cls)s { white-space: pre-wrap; }
-            .%(cls)s table, .highlight tr, .highlight td { border-spacing: 0; border-collapse: collapse; }
-            .%(cls)s pre { white-space: pre-wrap; line-height: normal; }
-            .%(cls)stable td.linenos { vertical-align: top; padding-left: 10px; user-select: none; }
-            .%(cls)stable td.code { overflow-wrap: normal; border-collapse: collapse; }
-            .%(cls)s .lineno.nonumber { list-style: none; }"""
-            % {"cls": self.cssclass}
+        new_styles = (
+            ("{0} table, {0} tr, {0} td", "border-spacing: 0; border-collapse: collapse"),
+            ("{0} pre", "white-space: pre-wrap; line-height: normal"),
+            (
+                "{0}table td.linenos",
+                "vertical-align: top; padding-left: 10px; user-select: none; -webkit-user-select: none",
+            ),
+            # Hack for Safari (user-select does not affect copy-paste)
+            ("{0}table td.linenos code:before", "content: attr(data-line-number)"),
+            ("{0}table td.code", "overflow-wrap: normal; border-collapse: collapse"),
+            ("{0}table td.code code", "white-space: pre-wrap"),
+            ("{0} .lineno.nonumber", "list-style: none"),
         )
-        return base + "\n" + new_styles
+        new_styles_code = []
+        if wrapper_classes is None:
+            wrapper_classes = ["." + self.cssclass]
+        for cls, rule in new_styles:
+            new_styles_code.append(", ".join(cls.format(c) for c in wrapper_classes) + " { " + rule + " }")
+        return base + "\n" + "\n".join(new_styles_code)
 
     def _wrap_tablelinenos(self, inner):
         lncount = 0
@@ -81,49 +96,62 @@ class BetterHtmlFormatter(HtmlFormatter):
             lines = []
 
             for i in range(fl, fl + lncount):
+                line_before = ""
+                line_after = ""
                 if i % st == 0:
                     if i % sp == 0:
                         if aln:
-                            lines.append('<a href="#%s-%d" class="special">%*d</a>' % (la, i, mw, i))
+                            line_before = '<a href="#%s-%d" class="special">' % (la, i)
+                            line_after = "</a>"
                         else:
-                            lines.append('<span class="special">%*d</span>' % (mw, i))
-                    else:
-                        if aln:
-                            lines.append('<a href="#%s-%d">%*d</a>' % (la, i, mw, i))
-                        else:
-                            lines.append("%*d" % (mw, i))
+                            line_before = '<span class="special">'
+                            line_after = "</span>"
+                    elif aln:
+                        line_before = '<a href="#%s-%d">' % (la, i)
+                        line_after = "</a>"
+                    lines.append((line_before, "%*d" % (mw, i), line_after))
                 else:
-                    lines.append("")
-            ls = "\n".join(lines)
+                    lines.append(("", "", ""))
         else:
             lines = []
             for i in range(fl, fl + lncount):
+                line_before = ""
+                line_after = ""
                 if i % st == 0:
                     if aln:
-                        lines.append('<a href="#%s-%d">%*d</a>' % (la, i, mw, i))
-                    else:
-                        lines.append("%*d" % (mw, i))
+                        line_before = '<a href="#%s-%d">' % (la, i)
+                        line_after = "</a>"
+                    lines.append((line_before, "%*d" % (mw, i), line_after))
                 else:
-                    lines.append("")
+                    lines.append(("", "", ""))
 
         yield 0, '<div class="%s"><table class="%stable">' % (
             self.cssclass,
             self.cssclass,
         )
-        for ln, cl in zip(lines, codelines):
+        for lndata, cl in zip(lines, codelines):
+            ln_b, ln, ln_a = lndata
             if nocls:
                 yield 0, (
-                    '<tr><td class="linenos linenodiv" style="background-color: #f0f0f0; padding-right: 10px"><code>'
+                    '<tr><td class="linenos linenodiv" style="background-color: #f0f0f0; padding-right: 10px">'
+                    + ln_b
+                    + '<code data-line-number="'
                     + ln
-                    + '</code></td><td class="code"><code>'
+                    + '"></code>'
+                    + ln_a
+                    + '</td><td class="code"><code>'
                     + cl.rstrip("\n")
                     + "</code></td></tr>"
                 )
             else:
                 yield 0, (
-                    '<tr><td class="linenos linenodiv"><code>'
+                    '<tr><td class="linenos linenodiv">'
+                    + ln_b
+                    + '<code data-line-number="'
                     + ln
-                    + '</code></td><td class="code"><code>'
+                    + '"></code>'
+                    + ln_a
+                    + '</td><td class="code"><code>'
                     + cl.rstrip("\n")
                     + "</code></td></tr>"
                 )
@@ -196,6 +224,8 @@ class BetterHtmlFormatter(HtmlFormatter):
         use several different wrappers that process the original source
         linewise, e.g. line number generators.
         """
+        if self.linenos_val is False:
+            return super().format_unencoded(tokensource, outfile)
         source = self._format_lines(tokensource)
         if self.hl_lines:
             source = self._highlight_lines(source)
