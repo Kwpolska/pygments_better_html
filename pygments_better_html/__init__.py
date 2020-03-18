@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Better HTML formatter for Pygments."""
+"""Better HTML formatter for Pygments.
+
+Copyright © 2020, Chris Warrick.
+License: 3-clause BSD.
+Portions copyright © 2006-2019, the Pygments authors. (2-clause BSD).
+"""
 
 __all__ = ["BetterHtmlFormatter"]
+__version__ = '0.1.0'
 
 import enum
 import textwrap
@@ -17,7 +23,7 @@ class BetterLinenos(enum.Enum):
 
 class BetterHtmlFormatter(HtmlFormatter):
     r"""
-    Format tokens as HTML 4 ``<span>`` tags, with alternate formatting styles:
+    Format tokens as HTML 4 ``<span>`` tags, with alternate formatting styles.
 
     * ``linenos = 'table'`` renders each line of code in a separate table row
     * ``linenos = 'ol'`` renders each line in a <li> element (inside <ol>)
@@ -30,13 +36,15 @@ class BetterHtmlFormatter(HtmlFormatter):
     filenames = ["*.html", "*.htm"]
 
     def __init__(self, **options):
+        """Initialize the formatter."""
         super().__init__(**options)
         self.linenos_name = self.options.get("linenos", "ol")
         self.linenos_val = BetterLinenos(self.linenos_name)
         self.linenos = 2 if self.linenos_val == BetterLinenos.OL else 1
 
     def get_style_defs(self, arg=None):
-        """
+        """Generate CSS style definitions.
+
         Return CSS style definitions for the classes produced by the current
         highlighting style. ``arg`` can be a string or list of selectors to
         insert before the token type classes.
@@ -97,7 +105,6 @@ class BetterHtmlFormatter(HtmlFormatter):
                         lines.append("%*d" % (mw, i))
                 else:
                     lines.append("")
-            ls = "\n".join(lines)
 
         yield 0, '<div class="%s"><table class="%stable">' % (
             self.cssclass,
@@ -175,7 +182,8 @@ class BetterHtmlFormatter(HtmlFormatter):
         yield 0, "</ol>"
 
     def format_unencoded(self, tokensource, outfile):
-        """
+        """Format code and write to outfile.
+
         The formatting process uses several nested generators; which of
         them are used is determined by the user's options.
 
