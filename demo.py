@@ -21,25 +21,27 @@ class BetterHtmlFormatter(HtmlFormatter):
         base = super().get_style_defs(arg)
         new_styles = textwrap.dedent(""\"💩
     This is an absurdly long line that should trigger the word wrap mechanism in any reasonably-sized web browser window. I think I should fill this line with Lorem ipsum, since I probably won’t be able to type out coherent text that also matches my fairly unusual requirement, but honestly, it wraps at least on my machine, so resize your browser and call it a day.
+\t\tAnd this line is indented with two tab characters.
     ""\")
 
 print("Hello, world!")
 """
 
-with open("demo-output.html", "w") as fh:
-    fh.write(
-        highlight(
-            CODE,
-            HtmlLexer(),
-            BetterHtmlFormatter(
-                linenos="table",  # or 'ol'
-                full=True,
-                hl_lines=[1, 3, 10],
-                linenostart=55,
-                linenostep=2,
-                lineanchors="x",
-                linenospecial=3,  # no CSS for this by default
-                anchorlinenos=True,  # table only
-            ),
+for linenos, anchorlinenos in (("table", True), ("ol", False)):
+    with open("demo-output-" + linenos + ".html", "w") as fh:
+        fh.write(
+            highlight(
+                CODE,
+                HtmlLexer(),
+                BetterHtmlFormatter(
+                    linenos=linenos,  # "table" or "ol"
+                    full=True,
+                    hl_lines=[1, 3, 10],
+                    linenostart=55,
+                    linenostep=2,
+                    lineanchors="x",
+                    linenospecial=3,  # no CSS for this by default
+                    anchorlinenos=anchorlinenos,  # table only
+                ),
+            )
         )
-    )

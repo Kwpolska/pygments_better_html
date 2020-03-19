@@ -1,6 +1,12 @@
 Changelog for pygments_better_html
 ==================================
 
+v0.1.2
+------
+
+* Work around “clever” HTML minifiers collapsing whitespace by using
+  non-breaking spaces in table mode.
+
 v0.1.1
 ------
 

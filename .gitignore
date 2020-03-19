@@ -1,4 +1,4 @@
-demo-output.html
+demo-output*.html
 *.py[cod]
 __pycache__
 
