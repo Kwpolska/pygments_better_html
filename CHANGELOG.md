@@ -1,6 +1,11 @@
 Changelog for pygments_better_html
 ==================================
 
+v0.1.3
+------
+
+* Support border-radius for code tables. (Change to default CSS)
+
 v0.1.2
 ------
 

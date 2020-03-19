@@ -30,7 +30,7 @@ Required CSS
 To make this work, you will need to add the following CSS:
 
 ```css
-.highlight table, .highlight tr, .highlight td { border-spacing: 0; border-collapse: collapse }
+.highlight table, .highlight tr, .highlight td { border-spacing: 0; border-collapse: separate; padding: 0 }
 .highlight pre { white-space: pre-wrap; line-height: normal }
 .highlighttable td.linenos { vertical-align: top; padding-left: 10px; user-select: none; -webkit-user-select: none }
 .highlighttable td.linenos code:before { content: attr(data-line-number) }
