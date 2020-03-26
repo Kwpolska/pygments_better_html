@@ -140,7 +140,7 @@ class BetterHtmlFormatter(HtmlFormatter):
         )
         for lndata, cl in zip(lines, codelines):
             ln_b, ln, ln_a = lndata
-            cl = MANY_SPACES.sub(_sp_to_nbsp, cl.rstrip("\n"))
+            cl = MANY_SPACES.sub(_sp_to_nbsp, cl)
             if nocls:
                 yield 0, (
                     '<tr><td class="linenos linenodiv" style="background-color: #f0f0f0; padding-right: 10px">'
