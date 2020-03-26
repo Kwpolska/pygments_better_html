@@ -7,7 +7,7 @@ Portions copyright © 2006-2019, the Pygments authors. (2-clause BSD).
 """
 
 __all__ = ["BetterHtmlFormatter"]
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 import enum
 import re
@@ -68,7 +68,7 @@ class BetterHtmlFormatter(HtmlFormatter):
             ("{0} pre", "white-space: pre-wrap; line-height: normal"),
             (
                 "{0}table td.linenos",
-                "vertical-align: top; padding-left: 10px; user-select: none; -webkit-user-select: none",
+                "vertical-align: top; padding-left: 10px; padding-right: 10px; user-select: none; -webkit-user-select: none",
             ),
             # Hack for Safari (user-select does not affect copy-paste)
             ("{0}table td.linenos code:before", "content: attr(data-line-number)"),

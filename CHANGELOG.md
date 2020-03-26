@@ -1,6 +1,12 @@
 Changelog for pygments_better_html
 ==================================
 
+v0.1.4
+------
+
+* Preserve blank lines when copying (#1).
+* Minor CSS fix.
+
 v0.1.3
 ------
 
