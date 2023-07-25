@@ -70,6 +70,10 @@ class BetterHtmlFormatter(HtmlFormatter):
                 "{0}table td.linenos",
                 "vertical-align: top; padding-left: 10px; padding-right: 10px; user-select: none; -webkit-user-select: none",
             ),
+            (
+                "{0}table td.linenos .special",
+                "padding: 0",
+            ),
             # Hack for Safari (user-select does not affect copy-paste)
             ("{0}table td.linenos code:before", "content: attr(data-line-number)"),
             ("{0}table td.code", "overflow-wrap: normal; border-collapse: collapse"),
@@ -249,7 +253,7 @@ class BetterHtmlFormatter(HtmlFormatter):
             if self.linenos_val == BetterLinenos.TABLE:
                 source = self._wrap_tablelinenos(source)
             if self.linenos_val == BetterLinenos.OL:
-                source = self.wrap(source, outfile)
+                source = self.wrap(source)
             if self.full:
                 source = self._wrap_full(source, outfile)
 

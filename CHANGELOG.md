@@ -1,6 +1,11 @@
 Changelog for pygments_better_html
 ==================================
 
+v0.1.5
+------
+
+* Support for Pygments 2.15.1.
+
 v0.1.4
 ------
 

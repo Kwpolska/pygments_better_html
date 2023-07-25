@@ -74,6 +74,6 @@ You should also note that GitHub uses both of these techniques, and BitBucket us
 License
 =======
 
-Copyright © 2020-2021, Chris Warrick. Licensed under the 3-clause BSD license.
+Copyright © 2020-2023, Chris Warrick. Licensed under the 3-clause BSD license.
 
-Many parts of the code are taken from Pygments’ original HTMLFormatter, which is copyright © 2006-2019 by the Pygments team, and is licensed under the 2-clause BSD license.
+Many parts of the code are taken from Pygments’ original HTMLFormatter, which is copyright © 2006-2022 by the Pygments team, and is licensed under the 2-clause BSD license.

@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pygments_better_html",
-    version="0.1.4",
+    version="0.1.5",
     description="Better HTML formatter for Pygments",
     keywords="pygments,html,code,highlighting",
     author="Chris Warrick",
@@ -22,13 +22,9 @@ setup(
         "Development Status :: 4 - Beta",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Topic :: Software Development",
     ],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["Pygments>=2.0.0"],
+    install_requires=["Pygments>=2.15.1"],
 )

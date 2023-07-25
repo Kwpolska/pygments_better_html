@@ -38,3 +38,6 @@ nosetests.xml
 
 # 
 .DS_Store
+
+/.venv
+/venv

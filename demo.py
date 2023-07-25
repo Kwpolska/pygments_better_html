@@ -2,7 +2,7 @@
 """Demo for BetterHTMLFormatter."""
 
 from pygments import highlight
-from pygments.lexers import HtmlLexer
+from pygments.lexers import PythonLexer
 from pygments_better_html import BetterHtmlFormatter
 
 CODE = """\
@@ -28,11 +28,11 @@ print("Hello, world!")
 """
 
 for linenos, anchorlinenos in (("table", True), ("ol", False)):
-    with open("demo-output-" + linenos + ".html", "w") as fh:
+    with open("demo-output-" + linenos + ".html", "w", encoding="utf-8") as fh:
         fh.write(
             highlight(
                 CODE,
-                HtmlLexer(),
+                PythonLexer(),
                 BetterHtmlFormatter(
                     linenos=linenos,  # "table" or "ol"
                     full=True,
