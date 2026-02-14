@@ -1,3 +1,28 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "pygments_better_html"
+authors = [{name = "Chris Warrick", email = "chris@chriswarrick.com"}]
+readme = "README.md"
+license = {text = "BSD-3-Clause"}
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development",
+]
+dependencies = [
+    "Pygments>=2.15.1",
+]
+dynamic = ["version", "description"]
+keywords = ["pygments", "html", "code", "highlighting"]
+
+[project.urls]
+Homepage = "https://github.com/Kwpolska/pygments_better_html"
+
 [tool.black]
 line-length = 120
 target-version = ['py35']

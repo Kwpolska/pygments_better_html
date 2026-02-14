@@ -1,5 +1,4 @@
-Better line numbers for Pygments HTML
-=====================================
+# Better line numbers for Pygments HTML
 
 This library provides improved line numbers for the Pygments HTML formatter. The `BetterHtmlFormatter` supports two styles:
 
@@ -10,22 +9,24 @@ Both styles allow for copy-pasting into a code editor. Directly copy-pasting int
 
 The `table` style is more flexible and looks better. The `ol` style is slightly more compatible with broken browsers and minifiers. Pick whichever one works best for you.
 
-Usage
-=====
+## Usage
 
 In most cases, it’s a drop-in replacement for `HtmlFormatter`. Just add the import:
 
-    from pygments_better_html import BetterHtmlFormatter
+```py
+from pygments_better_html import BetterHtmlFormatter
+```
 
 and when calling `highlight()`, instead of `HtmlFormatter`, pass the `BetterHtmlFormatter` class:
 
-    BetterHtmlFormatter(linenos="table", …other options…)
-    BetterHtmlFormatter(linenos="ol", …other options…)
+```py
+BetterHtmlFormatter(linenos="table", ..., other options, ...)
+BetterHtmlFormatter(linenos="ol", ..., other options, ...)
+```
 
 You can see a simple demo in `demo.py`.
 
-Required CSS
-------------
+### Required CSS
 
 To make this work, you will need to add the following CSS:
 
@@ -41,13 +42,11 @@ To make this work, you will need to add the following CSS:
 
 If you’re using ``get_style_defs``, those will be included for you.
 
-Browser support
-===============
+## Browser support
 
 All reasonably modern versions of reasonable browsers are supported. Internet Explorer is neither, so it isn’t supported. Firefox, Chrome and Safari are supported. Either mode works with these browsers, although I’ve seen Firefox add extra spaces to the front of lines randomly, and Safari requires an ugly hack for the table mode.
 
-Known limitations
-=================
+## Known limitations
 
 1. The `anchorlinenos` option is not supported for `linenos="ol"`.
 2. Third-party minifier tools may destroy your indentation if you use tabs. Spaces use a work-around, described in the following point.
@@ -56,8 +55,7 @@ Known limitations
 
 If you care about compatiblity with bad tools or unusual scenarios, and don’t mind losing `anchorlinenos`, consider using the `lineos="ol"` mode instead of `lineos="table"`.
 
-Browsers vs code vs minifiers
------------------------------
+### Browsers vs code vs minifiers
 
 Limitations (3) and (4) might be considered bugs in my code and not the minifiers. But note that browsers don’t ignore whitespace when parsing, and although the default `white-space: normal` setting for most tags collapses them, you can use `white-space: pre` or `white-space: pre-wrap` to display them. Those minifiers don’t take the CSS into account, and assume the default behavior, collapsing spaces outside of `<pre>` tags. Which is wrong if you override `white-space` on other elements, and “wasteful” if you do `pre { white-space: normal }` for some unusual reason (yeah, don’t do that.)
 
@@ -71,9 +69,8 @@ I also decided not to apply it to tabs (\t, ^I, U+0009 HORIZONTAL TAB), because 
 
 You should also note that GitHub uses both of these techniques, and BitBucket uses the first one. And that it’s easier for everyone to find a better tool if their current tool does stupid stuff.
 
-License
-=======
+## License
 
-Copyright © 2020-2023, Chris Warrick. Licensed under the 3-clause BSD license.
+Copyright © 2020-2026, Chris Warrick. Licensed under the 3-clause BSD license.
 
 Many parts of the code are taken from Pygments’ original HTMLFormatter, which is copyright © 2006-2022 by the Pygments team, and is licensed under the 2-clause BSD license.

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """Better HTML formatter for Pygments.
 
-Copyright © 2020-2021, Chris Warrick.
+Copyright © 2020-2026, Chris Warrick.
 License: 3-clause BSD.
-Portions copyright © 2006-2019, the Pygments authors. (2-clause BSD).
+Portions copyright © 2006-2022, the Pygments authors. (2-clause BSD).
 """
 
 __all__ = ["BetterHtmlFormatter"]
-__version__ = "0.1.4"
+__version__ = "0.1.6"
 
 import enum
 import re
